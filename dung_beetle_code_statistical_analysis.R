@@ -468,7 +468,7 @@ null_model_results_simpson<-mod_results(null_model_simpson,mod="1",at=NULL,group
 
 null_model_list<-list(null_model_abundance,null_model_richness,null_model_biomass,
                       null_model_shannon,null_model_simpson)
-outcome_list<-c("Abundance","Richness","Biomass","Shannon diversity","Simpson's diversity")
+outcome_list<-c("Abundance","Species richness","Biomass","Shannon Index","Simpson's Index")
 null_predictions<-NULL
 for(i in 1:length((null_model_list))){
   beta<-null_model_list[[i]]$beta
@@ -482,14 +482,14 @@ for(i in 1:length((null_model_list))){
 
 #format names of outcomes for figure
 dung_beetle_smd_filtered<-dung_beetle_smd_filtered%>%
-  mutate(new_outcome = fct_recode(detailed_outcome, "Richness" = "species richness",
+  mutate(new_outcome = fct_recode(detailed_outcome, "Species richness" = "species richness",
                                   "Abundance" = "density of individuals",
                                   "Biomass" = "biomass",
-                                  "Simpson's diversity" = "Simpson's Diversity Index",
-                                  "Shannon diversity" = "Shannon Index"))
+                                  "Simpson's Index" = "Simpson's Diversity Index",
+                                  "Shannon Index" = "Shannon Index"))
 
 # Set colors for each biodiversity metric
-metric_colours <- c("Abundance" = "blue", "Richness" = "green", "Biomass" = "red", "Shannon diversity" = "turquoise", "Simpson's diversity" = "orange")
+metric_colours <- c("Abundance" = "blue", "Species richness" = "green", "Biomass" = "red", "Shannon Index" = "turquoise", "Simpson's Index" = "orange")
 
 #plot
 ggplot(null_predictions, aes(x = beta, xmin = LCI, xmax = UCI, y = outcome)) +
@@ -532,7 +532,7 @@ plot <- ggplot(null_predictions, aes(x = beta, xmin = LCI, xmax = UCI, y = outco
   )
 
 # Reorder the y-axis labels
-desired_order <- c("Simpson's diversity", "Shannon diversity", "Richness", "Biomass", "Abundance")
+desired_order <- c("Simpson's Index", "Shannon Index", "Species richness", "Biomass", "Abundance")
 plot <- plot + scale_y_discrete(limits = desired_order)
 
 # Display the plot
@@ -921,7 +921,7 @@ plot_ag_abundance_4x4_recovery <- ggplot(new_data_ab, aes(x = last_burned_treatm
   scale_fill_manual(values = custom_colors) +   
   theme_cowplot() +
   labs(x = "",
-       y = "Standardised Mean Difference",
+       y = "Standardised mean difference",
        fill = "Above Ground Severity Index",  
        colour = "Above Ground Severity Index") +  
   scale_fill_discrete(name = "Above Ground Severity Index (%)") +  
@@ -949,7 +949,7 @@ plot_ag_richness_4x4_recovery <- ggplot(new_data_richness, aes(x = last_burned_t
   scale_fill_manual(values = custom_colors) +   
   theme_cowplot() +
   labs(x = "",
-       y = "Standardised Mean Difference",
+       y = "Standardised mean difference",
        fill = "Above Ground Severity Index",  
        colour = "Above Ground Severity Index") +  
   scale_fill_discrete(name = "Above Ground Severity Index (%)") +  
@@ -979,7 +979,7 @@ plot_bg_abundance_4x4_recovery <- ggplot(new_data_ab_bg, aes(x = last_burned_tre
   scale_fill_manual(values = custom_colors) +   
   theme_cowplot() +
   labs(x = "",
-       y = "Standardised Mean Difference",
+       y = "Standardised mean difference",
        fill = "Below Ground Severity Index",  
        colour = "Below Ground Severity Index") +  
   scale_fill_discrete(name = "Below Ground Severity Index (%)") +  
@@ -1009,7 +1009,7 @@ plot_bg_richness_4x4_recovery <- ggplot(new_data_richness_bg, aes(x = last_burne
   scale_fill_manual(values = custom_colors) +   
   theme_cowplot() +
   labs(x = "Time since last fire (years)",
-       y = "Standardised Mean Difference",
+       y = "Standardised mean difference",
        fill = "Below Ground Severity Index",  
        colour = "Below Ground Severity Index") +  
   scale_fill_discrete(name = "Below Ground Severity Index (%)") +  
@@ -1046,7 +1046,7 @@ plot_ag_abundance_4x4_recovery <- ggplot(new_data_ab, aes(x = last_burned_treatm
   theme_cowplot() +
   theme(axis.text.x = element_text(size = 7),  
         axis.title.y = element_text(size = 8))+
-  labs(x = "", y = "Standardised Mean Difference",
+  labs(x = "", y = "Standardised mean difference",
        fill = "Above Ground Severity Index",  
        colour = "Above Ground Severity Index") +  
   scale_fill_discrete(name = "Above Ground Severity Index (%)") +  
@@ -1063,7 +1063,7 @@ plot_ag_richness_4x4_recovery <- ggplot(new_data_richness, aes(x = last_burned_t
   theme_cowplot() +
   theme(axis.text.x = element_text(size = 7),  
         axis.title.y = element_text(size = 8))+
-  labs(x = "", y = "Standardised Mean Difference",
+  labs(x = "", y = "Standardised mean difference",
        fill = "Above Ground Severity Index",  
        colour = "Above Ground Severity Index") +  
   scale_fill_discrete(name = "Above Ground Severity Index (%)") +  
@@ -1081,7 +1081,7 @@ plot_bg_abundance_4x4_recovery <- ggplot(new_data_ab_bg, aes(x = last_burned_tre
   theme_cowplot() +
   theme(axis.text.x = element_text(size = 7),  
         axis.title.y = element_text(size = 8))+
-  labs(x = "", y = "Standardised Mean Difference",
+  labs(x = "", y = "Standardised mean difference",
        fill = "Below Ground Severity Index",  
        colour = "Below Ground Severity Index") +  
   scale_fill_discrete(name = "Below Ground Severity Index (%)") +  
@@ -1100,7 +1100,7 @@ plot_bg_richness_4x4_recovery <- ggplot(new_data_richness_bg, aes(x = last_burne
   theme(axis.text.x = element_text(size = 7),  
         axis.title.y = element_text(size = 8))+
   labs(x = "Time since last fire (years)",
-       y = "Standardised Mean Difference",
+       y = "Standardised mean difference",
        fill = "Below Ground Severity Index",  
        colour = "Below Ground Severity Index") +  
   scale_fill_discrete(name = "Below Ground Severity Index (%)") +  
@@ -1121,14 +1121,11 @@ recovery_grid<-plot_grid(plot_ag_abundance_4x4_recovery+theme(axis.title.y=eleme
 
 #create common y labels
 
-y.grob <- textGrob("Standardised Mean Difference", 
+y.grob <- textGrob("Standardised mean difference", 
                    gp=gpar(col="black", fontsize=12), rot=90)
 
 
 recovery_grid_with_y_axis<-grid.arrange(arrangeGrob(recovery_grid, left = y.grob))
-
-save_plot("figures/recovery_severity_plot.png",recovery_grid_with_y_axis,base_width = 20,base_height = 20,units="cm",dpi=300)
-
 
 
 ##############
@@ -1332,7 +1329,7 @@ plot_ag_abundance_4x4 <- ggplot(new_data_abundance_historical, aes(x = historica
   theme_cowplot() +
   theme(axis.text.x = element_text(size = 7),  
         axis.title.y = element_text(size = 8))+
-  labs(x = "", y = "Standardised Mean Difference",
+  labs(x = "", y = "Standardised mean difference",
        fill = "Above Ground Severity Index",  
        colour = "Above Ground Severity Index") +  
   scale_fill_discrete(name = "Above Ground Severity Index (%)") +  
@@ -1349,7 +1346,7 @@ plot_ag_richness_4x4 <- ggplot(new_data_richness_historical, aes(x = historical_
   theme_cowplot() +
   theme(axis.text.x = element_text(size = 7),  
         axis.title.y = element_text(size = 8))+
-  labs(x = "", y = "Standardised Mean Difference",
+  labs(x = "", y = "Standardised mean difference",
        fill = "Above Ground Severity Index",  
        colour = "Above Ground Severity Index") +  
   scale_fill_discrete(name = "Above Ground Severity Index (%)") +  
@@ -1367,7 +1364,7 @@ plot_bg_abundance_4x4 <- ggplot(new_data_abundance_historical_bg, aes(x = histor
   theme_cowplot() +
   theme(axis.text.x = element_text(size = 7),  
         axis.title.y = element_text(size = 8))+
-  labs(x = "", y = "Standardised Mean Difference",
+  labs(x = "", y = "Standardised mean difference",
        fill = "Below Ground Severity Index",  
        colour = "Below Ground Severity Index") +  
   scale_fill_discrete(name = "Below Ground Severity Index (%)") +  
@@ -1386,7 +1383,7 @@ plot_bg_richness_4x4 <- ggplot(new_data_richness_historical_bg, aes(x = historic
   theme(axis.text.x = element_text(size = 7),  
         axis.title.y = element_text(size = 8))+
   labs(x = "Historical fire return interval (years)",
-       y = "Standardised Mean Difference",
+       y = "Standardised mean difference",
        fill = "Below Ground Severity Index",  
        colour = "Below Ground Severity Index") +  
   scale_fill_discrete(name = "Below Ground Severity Index (%)") +  
@@ -1407,16 +1404,11 @@ historical_grid<-plot_grid(plot_ag_abundance_4x4+theme(axis.title.y=element_blan
 
 #create common y labels
 
-y.grob <- textGrob("Standardised Mean Difference", 
+y.grob <- textGrob("Standardised mean difference", 
                    gp=gpar(col="black", fontsize=12), rot=90)
 
 
 historical_grid_with_y_axis<-grid.arrange(arrangeGrob(historical_grid, left = y.grob))
-
-save_plot("figures/recovery_severity_plot.png",historical_grid_with_y_axis,base_width = 20,base_height = 20,units="cm",dpi=300)
-
-
-
 
 
 
